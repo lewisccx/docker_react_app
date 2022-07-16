@@ -1,0 +1,24 @@
+FROM node:18-alpine as react-build
+
+WORKDIR /app
+
+COPY package.json /app
+
+RUN npm install
+
+COPY . /app
+
+ARG REACT_APP_NAME
+
+ENV REACT_APP_NAME=$REACT_APP_NAME
+
+RUN npm run build
+
+FROM nginx:1.23.0-alpine
+
+COPY --from=react-build /app/build /usr/share/nginx/html
+
+# docker build --build-arg REACT_APP_NAME=lewis-prod -t react_image:prod -f Dockerfile.prod .
+# docker run --name react_app_prod -p 80:80 --rm -d  react_image:prod
+# Start from a build of your choice
+# docker build --target react-build --build-arg REACT_APP_NAME=lewis-prod -t react_image:prod -f Dockerfile.prod .

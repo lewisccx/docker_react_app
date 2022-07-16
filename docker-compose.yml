@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  react_app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+
+# docker-compose up -d
+# docker-compose down
+# docker-compose up -d --build

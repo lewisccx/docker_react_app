@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  react_app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: react_app
+    image: node:18-alpine
+    volumes:
+      - ./src:/app/src:ro
+    env_file:
+      - ./.env/
+    ports:
+      - 3000:3000
+
+# docker-compose up -d
+# docker-compose down
+# docker-compose up -d --build

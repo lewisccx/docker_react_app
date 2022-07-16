@@ -1,0 +1,46 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package.json /app
+
+RUN npm install
+
+COPY . /app
+
+ENV REACT_APP_NAME=myName
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
+
+# docker build -t react_image:dev .
+# docker run --name react_app -p 3000:3000 --rm -d react_image:dev
+# docker exec -it react_app sh
+
+# dev setup
+# bind mount: "-v C:\Users\1700559\Documents\docker\samples\react_app\src:/app/src
+# docker run --name react_app -p 3000:3000 --rm -d -v C:\Users\1700559\Documents\docker\samples\react_app\src:/app/src react_image:dev
+# in Powershell
+# docker run --name react_app -p 3000:3000 --rm -d -v ${pwd}\src:/app/src react_image:dev
+# In Commandline
+# docker run --name react_app -p 3000:3000 --rm -d -v %cd%\src:/app/src react_image:dev
+# In Linux
+# docker run --name react_app -p 3000:3000 --rm -d -v $(pwd)/src:/app/src react_image:dev
+# Enable code live update on Windows
+# (passive) docker run --name react_app -p 3000:3000 -e WATCHPACK_POLLING=true --rm -d -v %cd%\src:/app/src react_image:dev
+# OR
+# (active) add WATCHPACK_POLLING=true to "start": "WATCHPACK_POLLING=true react-scripts start" in "scripts" section in package.json
+# OR
+# add WATCHPACK_POLLING=true to .env file (best)
+
+# make your bind mount read-only 
+# docker run --name react_app -p 3000:3000 --rm -d -v %cd%\src:/app/src:ro react_image:dev
+
+# Passing environment variables
+# docker run --name react_app -p 3000:3000 --rm -d -e REACT_APP_NAME=lewis -v %cd%\src:/app/src:ro react_image:dev
+# OR
+# docker run --name react_app -p 3000:3000 --rm -d --env-file ./.env -v %cd%\src:/app/src:ro react_image:dev
+
+# Passing dockerfile name in case you change default "Dockerfile" name
+# docker build -t react_image:dev -f Dockerfile.dev .
